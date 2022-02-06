@@ -8,15 +8,22 @@ const MessageList = () => {
   const [msgs, setMsgs] = useState<any[]>([])
   const fetchMoreElement = useRef<HTMLDivElement>(null)
   const intersecting = useInfiniteScroll(fetchMoreElement)
+  const [hasNext, setHasNext] = useState<boolean>(true)
 
   const getMessages = async () => {
-    const { data: messages } = await axios.get('http://localhost:8000/messages')
-    setMsgs(messages)
+    const { data: newMsg } = await axios.get('http://localhost:8000/messages', {
+      params: { cursor: msgs[msgs.length - 1]?.id || '' },
+    })
+    if (newMsg.length === 0) {
+      setHasNext(false)
+      return
+    }
+    setMsgs((msgs) => [...msgs, ...newMsg])
   }
 
   useEffect(() => {
-    getMessages()
-  }, [])
+    if (intersecting && hasNext) getMessages()
+  }, [intersecting])
 
   const onCreateMessage = async (text: string) => {
     const newMessage = {

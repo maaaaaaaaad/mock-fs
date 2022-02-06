@@ -14,9 +14,11 @@ app.use(
   }),
 )
 
-app.get('/messages', (req: Request, res: Response) => {
+app.get('/messages', ({ query: { cursor = '' } }, res: Response) => {
   const messages = readData('messages')
-  res.send(messages)
+  const fromIndex =
+    messages.findIndex((message: any) => message.id === cursor) + 1
+  res.send(messages.slice(fromIndex, fromIndex + 15))
 })
 
 app.post('/messages', ({ body }, res: Response) => {
