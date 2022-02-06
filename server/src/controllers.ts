@@ -4,7 +4,7 @@ import { resolve } from 'path'
 const basePath = resolve()
 
 const filename: any = {
-  message: resolve(basePath, 'src/data/message.json'),
+  messages: resolve(basePath, 'src/data/message.json'),
 }
 
 export const readData = (target: any) => {
