@@ -1,13 +1,15 @@
 import express, { Request, Response, NextFunction } from 'express'
+import cors from 'cors'
 
 const app = express()
 
-app.get('/welcome', (req: Request, res: Response, next: NextFunction) => {
-  res.send('welcome!')
-})
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  }),
+)
 
-app.listen('1234', () => {
-  console.log(`
-   Server listening on port: 1234
-`)
-})
+app.listen(8000, () => console.log('Server start!'))
