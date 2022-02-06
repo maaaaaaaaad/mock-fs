@@ -1,0 +1,7 @@
+{
+  "watch": ["src"],
+  "ignore": ["data/**/*"],
+  "env": {
+    "NODE_ENV": "development"
+  }
+}
