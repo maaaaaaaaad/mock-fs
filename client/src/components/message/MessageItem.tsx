@@ -9,7 +9,7 @@ interface IMessageItem {
 const MessageItem: React.FC<IMessageItem> = ({ userId, timestamp, text }) => {
   return (
     <>
-      <li>
+      <li className="list">
         <span>{userId} </span>
         <span>{text}</span>
         <sub>

@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import MessageItem from './MessageItem'
 import MessageInput from './MessageInput'
 import axios from 'axios'
+import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 
 const MessageList = () => {
   const [msgs, setMsgs] = useState<any[]>([])
+  const fetchMoreElement = useRef<HTMLDivElement>(null)
+  const intersecting = useInfiniteScroll(fetchMoreElement)
 
   const getMessages = async () => {
     const { data: messages } = await axios.get('http://localhost:8000/messages')
@@ -37,6 +40,7 @@ const MessageList = () => {
           <MessageItem key={x.id} {...x} />
         ))}
       </ul>
+      <div ref={fetchMoreElement} />
     </>
   )
 }
