@@ -1,10 +1,10 @@
-import React, { useRef } from 'react'
+import React, { memo, useRef } from 'react'
 
 interface IMessageInput {
   mutate: (text: string) => void
 }
 
-const MessageInput: React.FC<IMessageInput> = ({ mutate }) => {
+const MessageInput: React.FC<IMessageInput> = memo(({ mutate }) => {
   const textRef = useRef<HTMLTextAreaElement>(null)
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,6 +20,6 @@ const MessageInput: React.FC<IMessageInput> = ({ mutate }) => {
       <button type="submit">SEND</button>
     </form>
   )
-}
+})
 
 export default MessageInput

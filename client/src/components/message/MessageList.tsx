@@ -1,30 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MessageItem from './MessageItem'
 import MessageInput from './MessageInput'
-
-const userIdSet = ['dong', 'oh']
-const getRandomUserId = () => userIdSet[Math.round(Math.random())]
-
-const message = Array(60)
-  .fill(0)
-  .map((_, i) => ({
-    id: i + 1,
-    userId: getRandomUserId(),
-    text: `mock data ${i + 1}`,
-    timestamp: Date.now(),
-  }))
+import axios from 'axios'
 
 const MessageList = () => {
-  const [msgs, setMsgs] = useState(message)
+  const [msgs, setMsgs] = useState<any[]>([])
 
-  const onCreateMessage = (text: string) => {
+  const getMessages = async () => {
+    const { data: messages } = await axios.get('http://localhost:8000/messages')
+    setMsgs(messages)
+  }
+
+  useEffect(() => {
+    getMessages()
+  }, [])
+
+  const onCreateMessage = async (text: string) => {
     const newMessage = {
-      id: message.length + 1,
-      userId: getRandomUserId(),
+      userId: 'woongs',
       text,
-      timestamp: Date.now(),
     }
-    setMsgs((msgs) => [newMessage, ...msgs])
+
+    const { data: newMsg } = await axios.post(
+      'http://localhost:8000/messages',
+      newMessage,
+    )
+
+    setMsgs((msgs) => [newMsg, ...msgs])
   }
 
   return (
