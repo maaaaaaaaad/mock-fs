@@ -12,6 +12,7 @@ const MessageInput: React.FC<IMessageInput> = memo(({ mutate }) => {
     e.stopPropagation()
     const text = textRef.current?.value
     text && mutate(text)
+    text === ''
   }
 
   return (
